@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { topics, getModulesByTopic, totalExercises } from '../data/modules';
+import { topics, getModulesByTopic, totalItems } from '../data/modules';
 import { achievements } from '../data/achievements';
 import { useProgress } from '../hooks/useProgress';
 import TopicGroup from '../components/TopicGroup';
@@ -7,7 +7,7 @@ import TopicGroup from '../components/TopicGroup';
 export default function Home() {
   const { completedExercises, unlockedAchievements } = useProgress();
   const done = completedExercises.size;
-  const pct = Math.round((done / totalExercises) * 100);
+  const pct = Math.round((done / totalItems) * 100);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
@@ -33,9 +33,9 @@ export default function Home() {
             <span>
               Overall progress:{' '}
               <span className="font-bold text-term-text">
-                {done}/{totalExercises}
+                {done}/{totalItems}
               </span>{' '}
-              exercises ({pct}%)
+              items ({pct}%)
             </span>
             <Link to="/achievements" className="text-term-amber hover:underline">
               achievements: {unlockedAchievements.size}/{achievements.length} →

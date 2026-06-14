@@ -11,12 +11,25 @@ export interface Exercise {
   successOutput: string;
 }
 
+export interface QuizQuestion {
+  id: string;
+  question: string;
+  /** Exactly four answer choices. */
+  options: [string, string, string, string];
+  /** Index (0-3) of the correct option. */
+  correctIndex: 0 | 1 | 2 | 3;
+  /** Shown after the user answers, explaining the correct choice. */
+  explanation: string;
+}
+
 export interface Module {
   id: string; // e.g. "101.1"
   title: string;
   topicId: string; // e.g. "101"
   description: string;
   exercises: Exercise[];
+  /** Concept multiple-choice questions for non-command topics. */
+  quizzes?: QuizQuestion[];
 }
 
 export interface Topic {

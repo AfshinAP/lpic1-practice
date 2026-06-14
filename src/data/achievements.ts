@@ -16,7 +16,9 @@ export interface Achievement {
 function moduleComplete(moduleId: string, p: ProgressSnapshot): boolean {
   const mod = modules.find((m) => m.id === moduleId);
   if (!mod) return false;
-  return mod.exercises.every((e) => p.completedExercises.has(e.id));
+  const exercisesDone = mod.exercises.every((e) => p.completedExercises.has(e.id));
+  const quizzesDone = (mod.quizzes ?? []).every((q) => p.completedExercises.has(q.id));
+  return exercisesDone && quizzesDone;
 }
 
 function topicComplete(topicId: string, p: ProgressSnapshot): boolean {

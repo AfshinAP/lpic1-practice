@@ -7,8 +7,12 @@ interface TopicGroupProps {
   completedExercises: Set<string>;
 }
 
+function moduleItemIds(m: Module): string[] {
+  return [...m.exercises.map((e) => e.id), ...(m.quizzes ?? []).map((q) => q.id)];
+}
+
 export default function TopicGroup({ topic, modules, completedExercises }: TopicGroupProps) {
-  const allDone = modules.every((m) => m.exercises.every((e) => completedExercises.has(e.id)));
+  const allDone = modules.every((m) => moduleItemIds(m).every((id) => completedExercises.has(id)));
 
   return (
     <section>
@@ -23,7 +27,7 @@ export default function TopicGroup({ topic, modules, completedExercises }: Topic
           <ModuleCard
             key={m.id}
             module={m}
-            completedCount={m.exercises.filter((e) => completedExercises.has(e.id)).length}
+            completedCount={moduleItemIds(m).filter((id) => completedExercises.has(id)).length}
           />
         ))}
       </div>

@@ -7,14 +7,14 @@ interface ModuleCardProps {
 }
 
 export default function ModuleCard({ module, completedCount }: ModuleCardProps) {
-  const total = module.exercises.length;
+  const total = module.exercises.length + (module.quizzes?.length ?? 0);
   const done = completedCount === total;
   const pct = total === 0 ? 0 : Math.round((completedCount / total) * 100);
 
   // SVG progress ring
   const r = 16;
   const circumference = 2 * Math.PI * r;
-  const offset = circumference * (1 - completedCount / total);
+  const offset = total === 0 ? circumference : circumference * (1 - completedCount / total);
 
   return (
     <Link
@@ -47,7 +47,7 @@ export default function ModuleCard({ module, completedCount }: ModuleCardProps) 
         </div>
         <div className="truncate text-sm text-term-text group-hover:whitespace-normal">{module.title}</div>
         <div className="text-xs text-term-dim">
-          {completedCount}/{total} exercises · {pct}%
+          {completedCount}/{total} items · {pct}%
         </div>
       </div>
     </Link>

@@ -24,6 +24,12 @@ export const modules: Module[] = [
 
 export const totalExercises = modules.reduce((sum, m) => sum + m.exercises.length, 0);
 
+/** Total practice items across the whole app: command exercises plus concept quizzes. */
+export const totalItems = modules.reduce(
+  (sum, m) => sum + m.exercises.length + (m.quizzes?.length ?? 0),
+  0,
+);
+
 export function getModule(id: string): Module | undefined {
   return modules.find((m) => m.id === id);
 }
