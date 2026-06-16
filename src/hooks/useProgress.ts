@@ -7,12 +7,14 @@ interface StoredProgress {
   completedExercises: string[];
   hintsUsed: string[];
   unlockedAchievements: string[];
+  completedChallengeSteps: string[];
 }
 
 interface ProgressState {
   completedExercises: Set<string>;
   hintsUsed: Set<string>;
   unlockedAchievements: Set<string>;
+  completedChallengeSteps: Set<string>;
 }
 
 function load(): ProgressState {
@@ -24,6 +26,7 @@ function load(): ProgressState {
         completedExercises: new Set(parsed.completedExercises ?? []),
         hintsUsed: new Set(parsed.hintsUsed ?? []),
         unlockedAchievements: new Set(parsed.unlockedAchievements ?? []),
+        completedChallengeSteps: new Set(parsed.completedChallengeSteps ?? []),
       };
     }
   } catch {
@@ -33,6 +36,7 @@ function load(): ProgressState {
     completedExercises: new Set(),
     hintsUsed: new Set(),
     unlockedAchievements: new Set(),
+    completedChallengeSteps: new Set(),
   };
 }
 
@@ -44,6 +48,7 @@ function persist() {
     completedExercises: [...state.completedExercises],
     hintsUsed: [...state.hintsUsed],
     unlockedAchievements: [...state.unlockedAchievements],
+    completedChallengeSteps: [...state.completedChallengeSteps],
   };
   localStorage.setItem(STORAGE_KEY, JSON.stringify(stored));
 }
@@ -69,6 +74,7 @@ export function completeExercise(exerciseId: string): Achievement[] {
   const snapshot: ProgressSnapshot = {
     completedExercises,
     hintsUsed: state.hintsUsed,
+    completedChallengeSteps: state.completedChallengeSteps,
   };
   const newlyUnlocked = achievements.filter(
     (a) => !state.unlockedAchievements.has(a.id) && a.isUnlocked(snapshot),
@@ -91,11 +97,36 @@ export function markHintUsed(exerciseId: string) {
   emit();
 }
 
+/** Marks a challenge step complete; returns achievements newly unlocked by this action. */
+export function completeChallengeStep(stepId: string): Achievement[] {
+  if (state.completedChallengeSteps.has(stepId)) return [];
+  const completedChallengeSteps = new Set(state.completedChallengeSteps).add(stepId);
+  const snapshot: ProgressSnapshot = {
+    completedExercises: state.completedExercises,
+    hintsUsed: state.hintsUsed,
+    completedChallengeSteps,
+  };
+  const newlyUnlocked = achievements.filter(
+    (a) => !state.unlockedAchievements.has(a.id) && a.isUnlocked(snapshot),
+  );
+  state = {
+    ...state,
+    completedChallengeSteps,
+    unlockedAchievements: new Set([
+      ...state.unlockedAchievements,
+      ...newlyUnlocked.map((a) => a.id),
+    ]),
+  };
+  emit();
+  return newlyUnlocked;
+}
+
 export function resetProgress() {
   state = {
     completedExercises: new Set(),
     hintsUsed: new Set(),
     unlockedAchievements: new Set(),
+    completedChallengeSteps: new Set(),
   };
   emit();
 }
@@ -113,14 +144,22 @@ export function useProgress() {
     [progress],
   );
 
+  const isChallengeStepComplete = useCallback(
+    (id: string) => progress.completedChallengeSteps.has(id),
+    [progress],
+  );
+
   return {
     completedExercises: progress.completedExercises,
     hintsUsed: progress.hintsUsed,
     unlockedAchievements: progress.unlockedAchievements,
+    completedChallengeSteps: progress.completedChallengeSteps,
     isExerciseComplete,
     isAchievementUnlocked,
+    isChallengeStepComplete,
     completeExercise,
     markHintUsed,
+    completeChallengeStep,
     resetProgress,
   };
 }

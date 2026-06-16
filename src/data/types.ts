@@ -36,3 +36,25 @@ export interface Topic {
   id: string;
   title: string;
 }
+
+export interface ChallengeStep {
+  id: string;
+  title: string;
+  description: string;
+  /** Lines printed in the terminal when this step begins. */
+  context?: string[];
+  acceptedAnswers: string[];
+  hint: string;
+  hintAfterAttempts?: number;
+  successOutput: string;
+}
+
+export interface Challenge {
+  id: string;       // e.g. "challenge-102"
+  topicId: string;  // e.g. "102"
+  title: string;    // "Incident: dpkg is broken"
+  scenario: string; // narrative shown in the side panel
+  /** Lines printed at the start of the challenge terminal. */
+  intro?: string[];
+  steps: ChallengeStep[];
+}

@@ -6,7 +6,8 @@ A LeetCode-style practice web app for the LPIC-1 certification. Every exam objec
 
 - **42 modules / 230+ exercises** covering all LPIC-1 v5 objectives (topics 101–110)
 - **Simulated shell** — type real Linux commands, get realistic output, with command history (arrow keys), `clear`, `help` and `hint` built in
-- **Achievements** — badges for your first command, each module mastered, each topic championed, 50% progress, finishing a module without hints, and completing the whole exam
+- **Topic Challenges** — one locked, multi-step real-world sysadmin incident per topic (broken package manager, full disk, kernel module failure, …); unlocks after all exercises and quizzes in that topic are complete
+- **Achievements** — badges for your first command, each module mastered, each topic championed, incident scenarios resolved, and completing the whole exam
 - **Progress saved locally** — everything is stored in your browser's localStorage; no account or backend needed
 
 ## Getting started

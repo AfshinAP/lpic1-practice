@@ -4,6 +4,7 @@ import ModulePage from './pages/ModulePage';
 import ExercisePage from './pages/ExercisePage';
 import QuizPage from './pages/QuizPage';
 import AchievementsPage from './pages/AchievementsPage';
+import ChallengePage from './pages/ChallengePage';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
           <Route path="/module/:moduleId/exercise/:exerciseId" element={<ExercisePage />} />
           <Route path="/module/:moduleId/quiz/:quizId" element={<QuizPage />} />
           <Route path="/achievements" element={<AchievementsPage />} />
+          <Route path="/topic/:topicId/challenge" element={<ChallengePage />} />
         </Routes>
       </div>
     </HashRouter>

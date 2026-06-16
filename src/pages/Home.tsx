@@ -5,7 +5,7 @@ import { useProgress } from '../hooks/useProgress';
 import TopicGroup from '../components/TopicGroup';
 
 export default function Home() {
-  const { completedExercises, unlockedAchievements } = useProgress();
+  const { completedExercises, unlockedAchievements, completedChallengeSteps } = useProgress();
   const done = completedExercises.size;
   const pct = Math.round((done / totalItems) * 100);
 
@@ -57,6 +57,7 @@ export default function Home() {
             topic={t}
             modules={getModulesByTopic(t.id)}
             completedExercises={completedExercises}
+            completedChallengeSteps={completedChallengeSteps}
           />
         ))}
       </div>

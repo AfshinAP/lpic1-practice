@@ -1,8 +1,10 @@
 import { modules, topics, totalExercises, getModulesByTopic } from './modules';
+import { challenges } from './challenges';
 
 export interface ProgressSnapshot {
   completedExercises: Set<string>;
   hintsUsed: Set<string>; // exercise ids where a hint was revealed
+  completedChallengeSteps: Set<string>;
 }
 
 export interface Achievement {
@@ -78,6 +80,26 @@ export const achievements: Achievement[] = [
       isUnlocked: (p) => topicComplete(t.id, p),
     }),
   ),
+  // Incident Resolved badges (one per topic challenge)
+  ...challenges.map(
+    (c): Achievement => ({
+      id: `challenge-${c.topicId}`,
+      title: `Incident Resolved ${c.topicId}`,
+      description: `Complete the topic ${c.topicId} scenario challenge: "${c.title}".`,
+      icon: `!${c.topicId}`,
+      isUnlocked: (p) =>
+        c.steps.every((s) => p.completedChallengeSteps.has(s.id)),
+    }),
+  ),
+  // Grand badge for clearing every challenge
+  {
+    id: 'incident-responder',
+    title: 'Incident Responder',
+    description: 'Resolve every topic challenge scenario from 101 to 110.',
+    icon: 'SRE',
+    isUnlocked: (p) =>
+      challenges.every((c) => c.steps.every((s) => p.completedChallengeSteps.has(s.id))),
+  },
 ];
 
 export function getUnlockedAchievements(p: ProgressSnapshot): Achievement[] {
