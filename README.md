@@ -1,14 +1,16 @@
 # LPIC-1 Practice Terminal
 
-A LeetCode-style practice web app for the LPIC-1 certification. Every exam objective from **101.1 to 110.3** has hands-on challenges solved in a **simulated terminal**, based on the topics from [lpic1book](https://linux1st.com/archives.html).
+Study for the LPIC-1 exam by actually typing commands. No multiple choice, no flashcards — just a LeetCode-style terminal in your browser where you solve real Linux problems.
 
-## Features
+Every objective from 101.1 to 110.3 has exercises. You type real commands and get realistic output.
 
-- **42 modules / 230+ exercises** covering all LPIC-1 v5 objectives (topics 101–110)
-- **Simulated shell** — type real Linux commands, get realistic output, with command history (arrow keys), `clear`, `help` and `hint` built in
-- **Topic Challenges** — one locked, multi-step real-world sysadmin incident per topic (broken package manager, full disk, kernel module failure, …); unlocks after all exercises and quizzes in that topic are complete
-- **Achievements** — badges for your first command, each module mastered, each topic championed, incident scenarios resolved, and completing the whole exam
-- **Progress saved locally** — everything is stored in your browser's localStorage; no account or backend needed
+## What's in it
+
+- 42 modules, 230+ exercises covering the full LPIC-1 v5 (topics 101–110)
+- A simulated shell with command history (arrow keys), `clear`, `help`, and `hint`
+- Topic Challenges — realistic sysadmin incidents (broken package manager, full disk, kernel module failure…) that unlock when you finish the exercises for that topic
+- Achievements and badges because hitting milestones feels good
+- No sign-up, no backend — everything saves to your browser's localStorage
 
 ## Getting started
 
@@ -17,21 +19,24 @@ npm install
 npm run dev
 ```
 
-Then open the printed URL (default `http://localhost:5173`).
+Open http://localhost:5173 and start with topic 101.1.
 
 ## Tech stack
 
-- React 19 + TypeScript + Vite
-- Tailwind CSS v4
-- React Router
-- localStorage for persistence
+React 19 + TypeScript + Vite, Tailwind CSS v4, React Router. State is all client-side via localStorage.
 
 ## Project layout
 
 ```
 src/
-├── data/          # modules, exercises and achievement definitions
-├── hooks/         # useProgress (localStorage-backed state)
-├── components/    # Terminal, cards, badges, toasts
-└── pages/         # Home, ModulePage, ExercisePage, AchievementsPage
+├── data/         # modules, exercises, achievement definitions
+├── hooks/        # useProgress (localStorage state)
+├── components/   # Terminal, cards, badges, toasts
+└── pages/        # Home, ModulePage, ExercisePage, AchievementsPage
 ```
+
+The exam objectives are based on [lpic1book by linux1st.com](https://linux1st.com/archives.html) — good companion resource while you work through the exercises.
+
+## Other stuff
+
+Found a bug? Exercise output doesn't match what your real terminal gives you? Open an issue. PRs for new exercises or fixes are welcome too.
